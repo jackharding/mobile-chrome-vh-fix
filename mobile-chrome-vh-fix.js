@@ -41,7 +41,8 @@ VHChromeFix.prototype.getElements = function(selectors) {
     for (var j = 0; j < elements.length; j++) {
       this.elements.push({
         domElement: elements[j],
-        vh: selectors[i].vh
+        vh: selectors[i].vh,
+        modifier: selectors[i].modifier
       });
     }
   }
@@ -54,6 +55,10 @@ VHChromeFix.prototype.isArray = function(array) {
 VHChromeFix.prototype.fixAll = function() {
   for (var i = 0; i < this.elements.length; i++) {
     var element = this.elements[i];
-    element.domElement.style.height = (window.innerHeight * element.vh / 100) + 'px';
+    if(element.modifier) {
+      element.domElement.style.height = eval((window.innerHeight * element.vh / 100) + element.modifier) + 'px';
+    } else {
+      element.domElement.style.height = (window.innerHeight * element.vh / 100) + 'px';
+    }
   }
 };
